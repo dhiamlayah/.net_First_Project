@@ -37,6 +37,16 @@ namespace TP3.Controllers
         {
             try
             {
+                Producer newProducer = new Producer
+                {
+                    Name = collection["Name"],
+                    Nationality = collection["Nationality"],
+                    Email= collection["Email"],
+                };
+                _context.Producers.Add(newProducer);
+                _context.SaveChanges();
+
+
                 return RedirectToAction(nameof(Index));
             }
             catch
