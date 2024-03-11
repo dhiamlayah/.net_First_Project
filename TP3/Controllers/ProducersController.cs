@@ -21,8 +21,23 @@ namespace TP3.Controllers
         // GET: ProducersController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
-        }
+
+            try
+            {
+                Producer prod = _context.Producers.Find(id);
+                if (prod == null)
+                {
+                    // If the producer is not found, return a NotFound result
+                    return NotFound();
+                }
+                return View(prod);
+            }
+            catch
+            {
+                return NotFound();
+
+            }
+         }
 
         // GET: ProducersController/Create
         public ActionResult Create()
@@ -58,7 +73,22 @@ namespace TP3.Controllers
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                Producer prod = _context.Producers.Find(id);
+                if (prod == null)
+                {
+                    // If the producer is not found, return a NotFound result
+                    return NotFound();
+                }
+                return View(prod);
+            }
+            catch
+            {
+                return NotFound();
+
+            }
+
         }
 
         // POST: ProducersController/Edit/5
@@ -90,7 +120,20 @@ namespace TP3.Controllers
         // GET: ProducersController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                Producer prodDelet = _context.Producers.Find(id);
+                if (prodDelet == null)
+                {
+                    // If the producer is not found, return a NotFound result
+                    return NotFound();
+                }
+                return View(prodDelet);
+
+            }catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: ProducersController/Delete/5
@@ -100,6 +143,16 @@ namespace TP3.Controllers
         {
             try
             {
+
+                Producer prodDelet = _context.Producers.Find(id);
+                if (prodDelet == null)
+                {
+                    // If the producer is not found, return a NotFound result
+                    return NotFound();
+                }
+                _context.Producers.Remove(prodDelet);
+                _context.SaveChanges();
+
                 return RedirectToAction(nameof(Index));
             }
             catch
