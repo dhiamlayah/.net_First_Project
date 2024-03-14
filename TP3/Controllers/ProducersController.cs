@@ -136,6 +136,29 @@ namespace TP3.Controllers
             }
         }
 
+
+
+          public ActionResult MyMovies(int id)
+        {
+            var requet = from m in _context.Movies
+                         join p in _context.Producers
+                         on m.ProducerId equals p.Id
+                         where p.Id == id
+                         select new ProdMovie
+                         {
+                             mGenre = m.Genre,
+                             mTitle = m.Title,
+                             pName = p.Name,
+                             pNat = p.Nationality,
+                         };
+
+            return View(requet);
+
+        }
+
+
+
+
         // POST: ProducersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]

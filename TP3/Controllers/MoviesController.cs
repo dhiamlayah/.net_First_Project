@@ -179,15 +179,29 @@ namespace TP3.Controllers
                          {
                              mGenre = m.Genre,
                              mTitle = m.Title,
-                             pName = p.Name,
-                             pNat = p.Nationality,
+                             
                          };
             Console.WriteLine($" your requet hit ; {requet}");
             return View(requet);
         }
 
+      
+        public ActionResult SeachByTitle(string search="")
+        {
+            var seachInDataBase = from m in _context.Movies
+                                  where m.Title.Contains(search)
+                                  select m;
+            return View(seachInDataBase);
+        }
 
-   
+        public ActionResult SearchByGenre(string genre = "")
+        {
+            var movieByGenre = from m in _context.Movies.Include(m => m.Producer)
+                               where m.Genre.Contains(genre)
+                               select m;
+
+            return View(movieByGenre);
+        }
         private bool MovieExists(int id)
         {
             return _context.Movies.Any(e => e.Id == id);
