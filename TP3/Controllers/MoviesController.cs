@@ -18,6 +18,13 @@ namespace TP3.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> MoviesAndtheirProds()
+        {
+            var cinemaDbContext = _context.Movies.Include(m => m.Producer);
+
+            return View(await cinemaDbContext.ToListAsync());
+        }
+
         // GET: Movies
         public async Task<IActionResult> Index()
         {
@@ -162,6 +169,25 @@ namespace TP3.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        public ActionResult MoviesAndTheirProds_UsingModel()
+        {
+            var requet = from m in _context.Movies
+                         join p in _context.Producers
+                         on m.ProducerId equals p.Id
+                         select new ProdMovie
+                         {
+                             mGenre = m.Genre,
+                             mTitle = m.Title,
+                             pName = p.Name,
+                             pNat = p.Nationality,
+                         };
+            Console.WriteLine($" your requet hit ; {requet}");
+            return View(requet);
+        }
+
+
+   
         private bool MovieExists(int id)
         {
             return _context.Movies.Any(e => e.Id == id);
